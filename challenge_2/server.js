@@ -1,5 +1,7 @@
 // Require and create an express instance
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 const port = 3000;
 
@@ -22,16 +24,46 @@ app.post('/', (req, res) => {
 })
 
 // Parse Data
-var parseData = (obj, callback) => {
-  console.log('Parse, req.body = ', obj);
-}
-  // Accepts the JSON object
-    // Create new string
-     // Get the keys from first obj
-      // Add these as the first line
-    // Helper function
-      // Iterate through the object
+var parseData = (json, callback) => {
+  var jsonObj = JSON.parse(json);
+  var jsonKeys = Object.keys(jsonObj);
+  // Create CSV string
+  var csvOutput = '';
+  // Get the keys from first obj for first line
+  for (let key in jsonObj) {
+    if (key === jsonKeys[jsonKeys.length - 2]) {
+      csvOutput += key + '\n';
+    } else if (key !== jsonKeys[jsonKeys.length - 1]) {
+      csvOutput += key + ',';
+    }
+  }
+  // Helper function
+  var parseObject = obj => {
+    // If children exist, call helper on each child
+    if (obj.children) {
+      for (let i =0; i < obj.children.length; i++) {
+        parseObject(obj.children[i]);
+      }
+    }
+    // Iterate through the object
+    for (let key in obj) {
       // Create a new line with each value seperated by comma
-      // If children, call helper
-    // Start function with first object
-  // Once complete, callback with result
+      if (key === jsonKeys[jsonKeys.length - 2]) {
+        csvOutput += obj[key] + '\n';
+      } else if (key !== jsonKeys[jsonKeys.length - 1]) {
+        csvOutput += obj[key] + ',';
+      }
+    }
+  }
+  // Start function with first object
+  parseObject(jsonObj);
+  // Once complete, write output to a file
+  fs.writeFile('csv_report.csv', csvOutput, err => {
+    if (err) callback(err);
+  });
+  // Then send the file back in the callback
+  fs.readFile(path.join(__dirname + '/csv_report.csv'), (err, data) => {
+    if (err) callback(err);
+    callback(null, data);
+  })
+}
