@@ -5,11 +5,10 @@
   </head>
   <body>
     <h1 style='text-align:center'>CSV Generator</h1>
-    <form class='json-form'>
+    <form class='json-form' enctype="multipart/form-data">
       <label for='json'>Enter Your JSON Object: </label>
       <br>
-      <input type='file' name='json' id='json' accept='application/json' required>
-      </textarea>
+      <input type='file' name='json' id='json' required>
       <br>
       <input type='submit' value='Show Me the CSV' formmethod='post' formaction='http://localhost:3000/'>
     </form>
