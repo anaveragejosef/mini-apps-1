@@ -7,9 +7,15 @@
     <h1 style='text-align:center'>CSV Generator</h1>
     <form class='json-form'>
       <label for='json'>Enter Your JSON Object: </label>
-      <input type='text' name='json' id='json' required>
-      <input type='submit' value='Show Me the CSV' formmethod='post' formaction='URL TODO'>
+      <br>
+      <textarea name='json' id='json'
+                rows='10' cols='50' required>
+      </textarea>
+      <br>
+      <input type='submit' value='Show Me the CSV' formmethod='post' formaction='http://localhost:3000/'>
     </form>
+    <br>
+    <div class='csv-output'></div>
     <script src='app.js'></script>
   </body>
 </html>
