@@ -7,17 +7,24 @@ const port = 3000;
 app.use(express.static('client'));
 // Use json to parse data into req.body
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 // List on port 3000
 app.listen(port, () => console.log(`Now listening at http://localhost:${port}`));
 
 // Create route
-  // First create an express call using post
-  // The URL will be root for now
+app.post('/', (req, res) => {
   // Within the res/req function call a parse data function
-    // This takes the results and a callback
+  parseData(req.body.json, (err, results) => {
     // Based on response, send error or CSV
+    if (err) res.status(400).send(err);
+    res.status(201).send(results);
+  });
+})
 
 // Parse Data
+var parseData = (obj, callback) => {
+  console.log('Parse, req.body = ', obj);
+}
   // Accepts the JSON object
     // Create new string
      // Get the keys from first obj
