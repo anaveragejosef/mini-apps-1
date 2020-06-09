@@ -8,14 +8,12 @@
     <form class='json-form'>
       <label for='json'>Enter Your JSON Object: </label>
       <br>
-      <textarea name='json' id='json'
-                rows='10' cols='50' required>
+      <input type='file' name='json' id='json' accept='application/json' required>
       </textarea>
       <br>
       <input type='submit' value='Show Me the CSV' formmethod='post' formaction='http://localhost:3000/'>
     </form>
     <br>
-    <div class='csv-output'></div>
     <script src='app.js'></script>
   </body>
 </html>
