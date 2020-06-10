@@ -1,3 +1,66 @@
+function UserForm(props) {
+  return (
+    <form>
+      <label>Name:
+      <input type='text' name='name'></input>
+      </label>
+      <label>Email:
+      <input type='text' name='email'></input>
+      </label>
+      <label>Password:
+      <input type='text' name='password'></input>
+      </label>
+      <input type='submit' value='Next' />
+    </form>
+  );
+}
+
+function DemographicForm(props) {
+  return (
+    <form onSubmit='send data to server'>
+      <label>Address 1:
+      <input type='text' value='this.state.address1'></input>
+      </label>
+      <label>Address 2:
+      <input type='text' value='this.state.address2'></input>
+      </label>
+      <label>City:
+      <input type='text' value='this.state.city'></input>
+      </label>
+      <label>State:
+      <input type='text' value='this.state.state'></input>
+      </label>
+      <label>Zip Code:
+      <input type='text' value='this.state.zip'></input>
+      </label>
+      <label>Phone Number:
+      <input type='text' value='this.state.phoneNumber'></input>
+      </label>
+      <input type='submit'>Next</input>
+    </form>
+  );
+}
+
+function PaymentForm(props) {
+  return (
+    <form onSubmit='send data to server'>
+      <label>Credit Card Number:
+      <input type='text' value='this.state.creditcard'></input>
+      </label>
+      <label>Expiration Data:
+      <input type='text' value='this.state.expiration'></input>
+      </label>
+      <label>CVV:
+      <input type='text' value='this.state.cvv'></input>
+      </label>
+      <label>Billing Zip Code:
+      <input type='text' value='this.state.billingZip'></input>
+      </label>
+      <input type='submit'>Purchase</input>
+    </form>
+  );
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,13 +93,13 @@ class App extends React.Component {
   render() {
     let form;
     if (this.state.isHomePage) {
-      form = <button onclick='moveToUserForm()'>Checkout</button>;
+      form = <button onClick={this.moveToUserForm}>Checkout</button>;
     } else if (this.state.isUserForm) {
-      form = <userForm checkoutId={this.state.checkoutID}/>;
+      form = <UserForm checkoutId={this.state.checkoutID}/>;
     } else if (this.state.isDemoForm) {
-      from = <demographicForm checkoutId={this.state.checkoutID}/>;
+      form = <DemographicForm checkoutId={this.state.checkoutID}/>;
     } else if (this.state.isPaymentForm) {
-      form = <paymentForm checkoutId={this.state.checkoutID}/>;
+      form = <PaymentForm checkoutId={this.state.checkoutID}/>;
     }
     return (
       <div>
@@ -47,54 +110,5 @@ class App extends React.Component {
   }
 }
 
+
 ReactDOM.render(<App />, document.getElementById('app'));
-
-var userForm = (props) => {
-  return (
-    <form onSubmit='send data to server'>
-      <label>Name: </label>
-      <input type='text' value='this.state.name'></input>
-      <label>Email: </label>
-      <input type='text' value='this.state.email'></input>
-      <label>Password: </label>
-      <input type='text' value='this.state.password'></input>
-      <input type='submit'>Next</input>
-    </form>
-  );
-}
-
-var demographicForm = (props) => {
-  return (
-    <form onSubmit='send data to server'>
-      <label>Address 1: </label>
-      <input type='text' value='this.state.address1'></input>
-      <label>Address 2: </label>
-      <input type='text' value='this.state.address2'></input>
-      <label>City: </label>
-      <input type='text' value='this.state.city'></input>
-      <label>State: </label>
-      <input type='text' value='this.state.state'></input>
-      <label>Zip Code: </label>
-      <input type='text' value='this.state.zip'></input>
-      <label>Phone Number: </label>
-      <input type='text' value='this.state.phoneNumber'></input>
-      <input type='submit'>Next</input>
-    </form>
-  );
-}
-
-var paymentForm = (props) => {
-  return (
-    <form onSubmit='send data to server'>
-      <label>Credit Card Number: </label>
-      <input type='text' value='this.state.creditcard'></input>
-      <label>Expiration Data: </label>
-      <input type='text' value='this.state.expiration'></input>
-      <label>CVV: </label>
-      <input type='text' value='this.state.cvv'></input>
-      <label>Billing Zip Code: </label>
-      <input type='text' value='this.state.billingZip'></input>
-      <input type='submit'>Purchase</input>
-    </form>
-  );
-}
