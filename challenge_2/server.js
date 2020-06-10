@@ -32,7 +32,7 @@ app.post('/', upload.single('json'), (req, res) => {
 
 app.get('/', (req, res) => {
   console.log('In get request');
-  downloadFile((err, results) => {
+  fs.readFile(path.join(__dirname + '/csv_report.csv'), (err, data) => {
     if (err) res.status(400).send(err);
     res.status(201).send(results);
   });

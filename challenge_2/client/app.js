@@ -19,8 +19,15 @@ $('#submit').click(function(event) {
 });
 
 var getFile = () => {
-  $.get( "/", function( data ) {
-    alert( "Data Loaded: " + data );
+  $.ajax({
+    url: 'http://localhost:3000/',
+    type: 'GET',
+    success: function(data) {
+      console.log(data);
+    },
+    error: function(error) {
+      console.log(error);
+    }
   });
 }
 
