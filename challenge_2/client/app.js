@@ -18,4 +18,10 @@ $('#submit').click(function(event) {
   });
 });
 
+var getFile = () => {
+  $.get( "/", function( data ) {
+    alert( "Data Loaded: " + data );
+  });
+}
+
 // formmethod='post' formaction='http://localhost:3000/'

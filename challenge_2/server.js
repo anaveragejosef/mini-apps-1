@@ -30,12 +30,20 @@ app.post('/', upload.single('json'), (req, res) => {
   })
 })
 
+app.get('/', (req, res) => {
+  console.log('In get request');
+  downloadFile((err, results) => {
+    if (err) res.status(400).send(err);
+    res.status(201).send(results);
+  });
+})
+
 // Parse Data
 var parseData = (json, callback) => {
   var jsonObj = JSON.parse(json);
   var jsonKeys = Object.keys(jsonObj);
   // Create CSV string
-  var csvOutput = '';
+  var csvOutput = ``;
   // Get the keys from first obj for first line
   for (let key in jsonObj) {
     if (key === jsonKeys[jsonKeys.length - 2]) {
@@ -64,17 +72,14 @@ var parseData = (json, callback) => {
   }
   // Start function with first object
   parseObject(jsonObj);
+  fs.writeFile('csv_report.csv', csvOutput, err => {});
   callback(null, csvOutput);
 }
 
-// Download File option
-// Once complete, write output to a file
-// fs.writeFile('csv_report.csv', csvOutput, err => {
-//   if (err) callback(err);
-//   // Then send the file back in the callback
-//   fs.readFile(path.join(__dirname + '/csv_report.csv'), (err, data) => {
-//     if (err) callback(err);
-//      // This will cause it to download immediately
-//     callback(null, data);
-//   });
-// });
+var downloadFile = callback => {
+  console.log('In Download File');
+  fs.readFile(path.join(__dirname + '/csv_report.csv'), (err, data) => {
+    if (err) callback(err);
+    callback(null, data);
+  });
+}
