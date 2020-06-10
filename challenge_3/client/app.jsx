@@ -1,25 +1,49 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {checkoutId: null,
-                  isHomePage: true,
-                  isUserForm: false,
-                  isDemoForm: false,
-                  isPaymentForm: false
-                };
+    this.state = {
+      checkoutId: null,
+      isHomePage: true,
+      isUserForm: false,
+      isDemoForm: false,
+      isPaymentForm: false
+    };
+    this.moveToUserForm = this.moveToUserForm.bind(this);
+  }
+  // On change event to pass to everyone
+
+  // Onclick for App
+  moveToUserForm() {
+    console.log('In form');
+    this.setState({
+      isHomePage: false,
+      isUserForm: true
+    });
   }
 
+  // Onclick for User form
+
+  // Onclick for Demo form
+
+  // Onclick for Payment form
+
   render() {
+    let form;
     if (this.state.isHomePage) {
-      <h1>Welcome to the Checkout Flow</h1>
-      <button name='checkout' id='checkout'>Checkout</button>
+      form = <button onclick='moveToUserForm()'>Checkout</button>;
     } else if (this.state.isUserForm) {
-      <userForm checkoutId={this.state.checkoutID}/>
+      form = <userForm checkoutId={this.state.checkoutID}/>;
     } else if (this.state.isDemoForm) {
-      <demographicForm checkoutId={this.state.checkoutID}/>
+      from = <demographicForm checkoutId={this.state.checkoutID}/>;
     } else if (this.state.isPaymentForm) {
-      <paymentForm checkoutId={this.state.checkoutID}/>
+      form = <paymentForm checkoutId={this.state.checkoutID}/>;
     }
+    return (
+      <div>
+        <h1>Welcome to the Checkout Flow</h1>
+        {form}
+      </div>
+    );
   }
 }
 
