@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 function UserForm(props) {
   return (
     <form onSubmit={props.onClick}>
@@ -89,11 +87,11 @@ class App extends React.Component {
   }
   // Onclick for App
   moveToUserForm() {
-    axios.get('http://localhost:3000/')
+    axios.get('/')
       .then(res => {
         console.log(res);
         this.setState({
-          this.checkoutId: res,
+          checkoutId: res,
           isHomePage: false,
           isUserForm: true
         });
