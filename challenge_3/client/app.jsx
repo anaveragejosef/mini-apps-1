@@ -1,6 +1,6 @@
 function UserForm(props) {
   return (
-    <form>
+    <form onSubmit={props.onClick}>
       <label>Name:
       <input type='text' name='name'></input>
       </label>
@@ -17,46 +17,46 @@ function UserForm(props) {
 
 function DemographicForm(props) {
   return (
-    <form onSubmit='send data to server'>
+    <form onSubmit={props.onClick}>
       <label>Address 1:
-      <input type='text' value='this.state.address1'></input>
+      <input type='text' name='address1'></input>
       </label>
       <label>Address 2:
-      <input type='text' value='this.state.address2'></input>
+      <input type='text' name='address2'></input>
       </label>
       <label>City:
-      <input type='text' value='this.state.city'></input>
+      <input type='text' name='city'></input>
       </label>
       <label>State:
-      <input type='text' value='this.state.state'></input>
+      <input type='text' name='state'></input>
       </label>
       <label>Zip Code:
-      <input type='text' value='this.state.zip'></input>
+      <input type='text' name='zip'></input>
       </label>
       <label>Phone Number:
-      <input type='text' value='this.state.phoneNumber'></input>
+      <input type='text' name='phoneNumber'></input>
       </label>
-      <input type='submit'>Next</input>
+      <input type='submit' value='Next' />
     </form>
   );
 }
 
 function PaymentForm(props) {
   return (
-    <form onSubmit='send data to server'>
+    <form onSubmit={props.onClick}>
       <label>Credit Card Number:
-      <input type='text' value='this.state.creditcard'></input>
+      <input type='text' name='creditcard'></input>
       </label>
       <label>Expiration Data:
-      <input type='text' value='this.state.expiration'></input>
+      <input type='text' name='expiration'></input>
       </label>
       <label>CVV:
-      <input type='text' value='this.state.cvv'></input>
+      <input type='text' name='cvv'></input>
       </label>
       <label>Billing Zip Code:
-      <input type='text' value='this.state.billingZip'></input>
+      <input type='text' name='billingZip'></input>
       </label>
-      <input type='submit'>Purchase</input>
+      <input type='submit' value='Purchase' />
     </form>
   );
 }
@@ -72,12 +72,14 @@ class App extends React.Component {
       isPaymentForm: false
     };
     this.moveToUserForm = this.moveToUserForm.bind(this);
+    this.moveToDemoForm = this.moveToDemoForm.bind(this);
+    this.moveToPaymentForm = this.moveToPaymentForm.bind(this);
+    this.moveToHomePage = this.moveToHomePage.bind(this);
   }
   // On change event to pass to everyone
 
   // Onclick for App
   moveToUserForm() {
-    console.log('In form');
     this.setState({
       isHomePage: false,
       isUserForm: true
@@ -85,21 +87,39 @@ class App extends React.Component {
   }
 
   // Onclick for User form
+  moveToDemoForm() {
+    this.setState({
+      isUserForm: false,
+      isDemoForm: true
+    });
+  }
 
   // Onclick for Demo form
+  moveToPaymentForm() {
+    this.setState({
+      isDemoForm: false,
+      isPaymentForm: true
+    });
+  }
 
   // Onclick for Payment form
+  moveToHomePage() {
+    this.setState({
+      isPaymentForm: false,
+      isHomePage: true
+    });
+  }
 
   render() {
     let form;
     if (this.state.isHomePage) {
       form = <button onClick={this.moveToUserForm}>Checkout</button>;
     } else if (this.state.isUserForm) {
-      form = <UserForm checkoutId={this.state.checkoutID}/>;
+      form = <UserForm checkoutId={this.state.checkoutID} onClick={this.moveToDemoForm}/>;
     } else if (this.state.isDemoForm) {
-      form = <DemographicForm checkoutId={this.state.checkoutID}/>;
+      form = <DemographicForm checkoutId={this.state.checkoutID} onClick={this.moveToPaymentForm}/>;
     } else if (this.state.isPaymentForm) {
-      form = <PaymentForm checkoutId={this.state.checkoutID}/>;
+      form = <PaymentForm checkoutId={this.state.checkoutID} onClick={this.moveToHomePage}/>;
     }
     return (
       <div>
