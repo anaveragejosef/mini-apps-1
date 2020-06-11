@@ -83,22 +83,13 @@ class App extends React.Component {
     this.setState({
       [event.target.name]: value
     });
-    console.log(this.state);
   }
   // Onclick for App
   moveToUserForm() {
-    axios.get('/')
-      .then(res => {
-        console.log(res);
-        this.setState({
-          checkoutId: res,
-          isHomePage: false,
-          isUserForm: true
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.setState({
+      isHomePage: false,
+      isUserForm: true
+    });
   }
 
   // Onclick for User form
@@ -119,10 +110,31 @@ class App extends React.Component {
 
   // Onclick for Payment form
   moveToHomePage() {
-    this.setState({
-      isPaymentForm: false,
-      isHomePage: true
-    });
+    axios.post('/api', {
+      id: this.state.id,
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      address1: this.state.address1,
+      address2: this.state.address2,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      phone: this.state.phone,
+      card: this.state.card,
+      exp: this.state.exp,
+      cvv: this.state.cvv,
+      billing: this.state.billing
+    })
+      .then(res => {
+        this.setState({
+          isPaymentForm: false,
+          isHomePage: true
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -130,11 +142,11 @@ class App extends React.Component {
     if (this.state.isHomePage) {
       form = <button onClick={this.moveToUserForm}>Checkout</button>;
     } else if (this.state.isUserForm) {
-      form = <UserForm checkoutId={this.state.checkoutID} onClick={this.moveToDemoForm} onChange={this.handleChange}/>;
+      form = <UserForm onClick={this.moveToDemoForm} onChange={this.handleChange}/>;
     } else if (this.state.isDemoForm) {
-      form = <DemographicForm checkoutId={this.state.checkoutID} onClick={this.moveToPaymentForm} onChange={this.handleChange}/>;
+      form = <DemographicForm onClick={this.moveToPaymentForm} onChange={this.handleChange}/>;
     } else if (this.state.isPaymentForm) {
-      form = <PaymentForm checkoutId={this.state.checkoutID} onClick={this.moveToHomePage} onChange={this.handleChange}/>;
+      form = <PaymentForm onClick={this.moveToHomePage} onChange={this.handleChange}/>;
     }
     return (
       <div>
