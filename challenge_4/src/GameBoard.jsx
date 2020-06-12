@@ -11,6 +11,7 @@ class GameBoard extends React.Component {
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0]
       ],
       currentPlayer: 1,
@@ -20,6 +21,7 @@ class GameBoard extends React.Component {
     }
     this.placePiece = this.placePiece.bind(this);
     this.updatePlayer = this.updatePlayer.bind(this);
+    this.setColor = this.setColor.bind(this);
   }
 
   placePiece(id) {
@@ -53,7 +55,7 @@ class GameBoard extends React.Component {
           board: updateBoard
         });
         updateColor += i;
-        setColor(updateColor);
+        this.setColor(updateColor);
         // Then update current player
         this.updatePlayer();
         console.log(this.state.board);
