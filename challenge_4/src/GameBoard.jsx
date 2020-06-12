@@ -22,6 +22,9 @@ class GameBoard extends React.Component {
     this.placePiece = this.placePiece.bind(this);
     this.updatePlayer = this.updatePlayer.bind(this);
     this.setColor = this.setColor.bind(this);
+    this.checkWinner = this.checkWinner.bind(this);
+    this.checkRows = this.checkRows.bind(this);
+    this.checkColumns = this.checkColumns.bind(this);
   }
 
   placePiece(id) {
@@ -57,8 +60,11 @@ class GameBoard extends React.Component {
         updateColor += i;
         this.setColor(updateColor);
         // Then update current player
-        this.updatePlayer();
-        console.log(this.state.board);
+        if (this.checkWinner()) {
+          alert(this.state.currentPlayer === 1 ? 'Black Won!' : 'Red Won!');
+        } else {
+          this.updatePlayer();
+        }
         return;
       }
     }
@@ -84,6 +90,67 @@ class GameBoard extends React.Component {
         currentPlayer: this.state.currentPlayer - 1
       })
     }
+  }
+
+  checkWinner() {
+    var board = this.state.board;
+    if (this.checkRows(board)) {
+      return true;
+    } else if (this.checkColumns(board)) {
+      return true;
+    // } else if (checkMajDiagonal(board)) {
+    //   return true;
+    // } else if (checkMinorDiagonal(board)) {
+    //   return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkRows(board) {
+    for (let r = 0; r < board.length; r++) {
+      var blackCount = 0;
+      var redCount = 0;
+      for (let c = 0; c < board.length; c++) {
+        if (board[c][r] === 0) {
+          blackCount = 0;
+          redCount = 0;
+        } else if (board[c][r] === 1) {
+          blackCount++;
+          redCount = 0;
+        } else {
+          redCount++;
+          blackCount = 0;
+        }
+        if (redCount === 4 || blackCount === 4) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  checkColumns(board) {
+    for (let c = 0; c < board.length; c++) {
+      var blackCount = 0;
+      var redCount = 0;
+      for (let r = 0; r < board.length; r++) {
+        if (board[c][r] === 0) {
+          blackCount = 0;
+          redCount = 0;
+        } else if (board[c][r] === 1) {
+          blackCount++;
+          redCount = 0;
+        } else {
+          redCount++;
+          blackCount = 0;
+        }
+        if (redCount === 4 || blackCount === 4) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   render () {
