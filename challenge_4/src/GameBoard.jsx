@@ -25,6 +25,8 @@ class GameBoard extends React.Component {
     this.checkWinner = this.checkWinner.bind(this);
     this.checkRows = this.checkRows.bind(this);
     this.checkColumns = this.checkColumns.bind(this);
+    this.checkMajDiagonal = this.checkMajDiagonal.bind(this);
+    //this.checkMinorDiagonal = this.checkMinorDiagonal.bind(this);
   }
 
   placePiece(id) {
@@ -98,9 +100,9 @@ class GameBoard extends React.Component {
       return true;
     } else if (this.checkColumns(board)) {
       return true;
-    // } else if (checkMajDiagonal(board)) {
-    //   return true;
-    // } else if (checkMinorDiagonal(board)) {
+     } else if (this.checkMajDiagonal(board)) {
+       return true;
+    // } else if (this.checkMinorDiagonal(board)) {
     //   return true;
     } else {
       return false;
@@ -145,6 +147,41 @@ class GameBoard extends React.Component {
           redCount++;
           blackCount = 0;
         }
+        if (redCount === 4 || blackCount === 4) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  checkMajDiagonal(board) {
+    for (let i = -2; i < board.length; i++) {
+      var col = i;
+      var blackCount = 0;
+      var redCount = 0;
+      if (i >= 0) {
+        var limit = board.length - i;
+      } else {
+        var limit = board.length;
+      }
+      for (let r = 0; r < limit; r++) {
+        if (col < 0) {
+          col++;
+          continue;
+        }
+        var diagonal = board[col][r];
+        if (diagonal === 0) {
+          blackCount = 0;
+          redCount = 0;
+        } else if (diagonal === 1) {
+          blackCount++;
+          redCount = 0;
+        } else {
+          redCount++;
+          blackCount = 0;
+        }
+        col++;
         if (redCount === 4 || blackCount === 4) {
           return true;
         }
